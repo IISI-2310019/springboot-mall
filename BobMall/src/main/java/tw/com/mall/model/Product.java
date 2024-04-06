@@ -1,5 +1,7 @@
 package tw.com.mall.model;
 
+import tw.com.mall.constant.ProductCategory;
+
 import java.util.Date;
 
 public class Product {
@@ -7,7 +9,8 @@ public class Product {
 
     private String productName;
 
-    private String category;
+    //private String category  > 改寫為 Enum 類型
+    private ProductCategory category;
 
     private String imageUrl;
 
@@ -37,12 +40,14 @@ public class Product {
         this.productName = productName == null ? null : productName.trim();
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
     public void setCategory(String category) {
-        this.category = category == null ? null : category.trim();
+        //String categoryName = category == null ? null : category.trim();
+        //ProductCategory Category = ProductCategory.valueOf(categoryName);
+        this.category = ProductCategory.valueOf(category == null ? null : category.trim());
     }
 
     public String getImageUrl() {
