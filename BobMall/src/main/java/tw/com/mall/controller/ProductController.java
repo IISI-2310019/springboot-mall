@@ -2,11 +2,9 @@ package tw.com.mall.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tw.com.mall.mapper.ProductMapper;
 import tw.com.mall.model.Product;
 import tw.com.mall.service.ProductService;
 
@@ -44,7 +42,7 @@ public class ProductController {
     public ResponseEntity<Product> addProduct(@RequestBody @Valid Product product)
     {
         Date now=new Date();
-        if(product.getProductId() ==null || product.getProductId().equals("")){
+        if(product.getProductId() ==null || product.getProductId().isEmpty()){
             //新增
             String UUID=java.util.UUID.randomUUID().toString();
             System.out.println("now : " + now);
@@ -65,6 +63,26 @@ public class ProductController {
             }
         }
         //return ResponseEntity.status(HttpStatus.OK).body(product);
+    }
+
+    @PutMapping("/products")
+    public ResponseEntity<Product> updateProduct(@RequestBody @Valid Product product)
+    {
+        Date now=new Date();
+        if(product.getProductId() ==null || product.getProductId().isEmpty()){
+            //商品ID不可空白
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }else{
+            if(productService.selectByPrimaryKey(product.getProductId()) != null)
+            {
+                //已經有資料
+                product.setLastModifyDate(now);
+                productService.updateByPrimaryKey(product);
+                return ResponseEntity.status(HttpStatus.OK).body(product);
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        }
     }
 
 }

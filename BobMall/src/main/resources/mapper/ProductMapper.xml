@@ -135,14 +135,32 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="tw.com.mall.model.Product">
         update product
-        set product_name = #{productName,jdbcType=VARCHAR},
-            category = #{category,jdbcType=VARCHAR},
-            image_url = #{imageUrl,jdbcType=VARCHAR},
-            price = #{price,jdbcType=INTEGER},
-            stock = #{stock,jdbcType=INTEGER},
-            description = #{description,jdbcType=VARCHAR},
-            create_date = #{createDate,jdbcType=TIMESTAMP},
-            last_modify_date = #{lastModifyDate,jdbcType=TIMESTAMP}
-        where product_id = #{productId,jdbcType=INTEGER}
+        <set>
+            <if test="productName != null">
+                product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="category != null">
+                category = #{category,jdbcType=VARCHAR},
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=INTEGER},
+            </if>
+            <if test="stock != null">
+                stock = #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                <!--create_date = #{createDate,jdbcType=TIMESTAMP},-->
+            </if>
+            <if test="lastModifyDate != null">
+                last_modify_date = #{lastModifyDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where product_id = #{productId,jdbcType=VARCHAR}
     </update>
 </mapper>

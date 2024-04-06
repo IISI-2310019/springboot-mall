@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import tw.com.mall.mapper.ProductMapper;
 import tw.com.mall.model.Product;
 
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -47,11 +46,11 @@ public class ProductService implements ProductMapper {
 
     @Override
     public int updateByPrimaryKeySelective(Product row) {
-        return 0;
+        return productMapper.updateByPrimaryKeySelective(row);
     }
 
     @Override
     public int updateByPrimaryKey(Product row) {
-        return 0;
+        return productMapper.updateByPrimaryKey(row);
     }
 }
