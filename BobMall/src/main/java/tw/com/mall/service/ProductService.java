@@ -15,13 +15,19 @@ public class ProductService implements ProductMapper {
     private ProductMapper productMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer productId) {
+    public int deleteByPrimaryKey(String productId) {
         return 0;
     }
 
     @Override
     public int insert(Product row) {
-        return 0;
+        int result=0;
+        try {
+            result = productMapper.insert(row);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
@@ -30,7 +36,7 @@ public class ProductService implements ProductMapper {
     }
 
     @Override
-    public Product selectByPrimaryKey(Integer productId) {
+    public Product selectByPrimaryKey(String productId) {
         return productMapper.selectByPrimaryKey(productId);
     }
 

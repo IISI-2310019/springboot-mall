@@ -1,21 +1,27 @@
 package tw.com.mall.model;
 
+import jakarta.validation.constraints.NotNull;
 import tw.com.mall.constant.ProductCategory;
 
 import java.util.Date;
 
 public class Product {
-    private Integer productId;
+    private String productId;
 
+    @NotNull
     private String productName;
 
+    @NotNull
     //private String category  > 改寫為 Enum 類型
     private ProductCategory category;
 
+    @NotNull
     private String imageUrl;
 
+    @NotNull
     private Integer price;
 
+    @NotNull
     private Integer stock;
 
     private String description;
@@ -24,11 +30,11 @@ public class Product {
 
     private Date lastModifyDate;
 
-    public Integer getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
