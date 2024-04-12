@@ -45,13 +45,14 @@ public class ProductController {
         if(product.getProductId() ==null || product.getProductId().isEmpty()){
             //新增
             String UUID=java.util.UUID.randomUUID().toString();
-            System.out.println("now : " + now);
             product.setProductId(UUID);
             product.setCreateDate(now);
             product.setLastModifyDate(now);
             productService.insert(product);
             return ResponseEntity.status(HttpStatus.CREATED).body(product);
         }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            /*
             if(productService.selectByPrimaryKey(product.getProductId()) != null)
             {
                 //已經有資料
@@ -61,23 +62,32 @@ public class ProductController {
             }else{
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
+             */
         }
         //return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
-    @PutMapping("/products")
-    public ResponseEntity<Product> updateProduct(@RequestBody @Valid Product product)
+    @PutMapping("/products/{productId}")
+    public ResponseEntity<Product> updateProduct(
+                                            @PathVariable String productId,
+                                            @RequestBody @Valid Product product)
     {
         Date now=new Date();
-        if(product.getProductId() ==null || product.getProductId().isEmpty()){
+        if( productId ==null || productId.isEmpty() || productId.isBlank() || !product.getProductId().equals(productId) ){
             //商品ID不可空白
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }else{
-            if(productService.selectByPrimaryKey(product.getProductId()) != null)
+            Product product1 = productService.selectByPrimaryKey(productId);
+            if(product1 != null)
             {
                 //已經有資料
                 product.setLastModifyDate(now);
-                productService.updateByPrimaryKey(product);
+                System.out.println("now : " + now);
+                //
+                productService.updateProduct(productId,product);
+                //為了要回傳顯示建立時間
+                product.setCreateDate(product1.getCreateDate());
+
                 return ResponseEntity.status(HttpStatus.OK).body(product);
             }else{
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

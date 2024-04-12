@@ -50,7 +50,12 @@ public class ProductService implements ProductMapper {
     }
 
     @Override
-    public int updateByPrimaryKey(Product row) {
-        return productMapper.updateByPrimaryKey(row);
+    public int updateByPrimaryKey(String productId,Product row) {
+        return productMapper.updateByPrimaryKey(productId,row);
+    }
+
+    @Override
+    public void updateProduct(String productId,Product row){
+
     }
 }
