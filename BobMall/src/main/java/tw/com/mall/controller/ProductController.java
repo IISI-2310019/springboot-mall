@@ -95,4 +95,18 @@ public class ProductController {
         }
     }
 
+    //刪除
+    @DeleteMapping("/products/{productId}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable String productId){
+        Date now=new Date();
+        if( productId == null || productId.isEmpty() || productId.isBlank()){
+            //商品ID不可空白
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }else{
+            productService.deleteByPrimaryKey(productId);
+            //回傳HttpStatus 204 不需要強調是否刪除成功
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
 }

@@ -15,7 +15,7 @@ public class ProductService implements ProductMapper {
 
     @Override
     public int deleteByPrimaryKey(String productId) {
-        return 0;
+        return productMapper.deleteByPrimaryKey(productId);
     }
 
     @Override
