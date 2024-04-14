@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tw.com.mall.constant.ProductCategory;
+import tw.com.mall.dto.ProductsQueryParms;
 import tw.com.mall.model.Product;
 import tw.com.mall.service.ProductService;
 
@@ -15,13 +17,32 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-
     private ProductService productService;
 
     @GetMapping("/products")
-    public List<Product> selectAll(){
-        return productService.selectAll();
+    public ResponseEntity<List<Product>> getAllProduct(
+                        @RequestParam(required = false) ProductCategory category,
+                        @RequestParam(required = false) String keyword,
+                        @RequestParam(required = false) Integer page
+            ) {
+
+        ProductsQueryParms productsQueryParms = new ProductsQueryParms();
+
+        productsQueryParms.setCategory(category);
+        productsQueryParms.setKeyword(keyword);
+
+        //List<Product> Products =  productService.getProducts(category,keyword,page);
+        List<Product> Products =  productService.getProducts(productsQueryParms,page);
+
+        //回傳HttpStatusCode 200
+        return ResponseEntity.status(HttpStatus.OK).body(Products);
     }
+
+
+    //@GetMapping("/products")
+    //public List<Product> selectAll(){
+    //    return productService.selectAll();
+    //}
 
     @GetMapping("/products/{productId}")
     //public Product getProduct(@PathVariable Integer productId){
@@ -108,5 +129,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
     }
+
+
 
 }

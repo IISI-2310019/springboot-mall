@@ -21,6 +21,21 @@
         <include refid="Base_Column_List" />
         from product
     </select>
+    <!--關鍵字查詢-->
+    <!--使用tw.com.mall.dto.ProductsQueryParms Bean方式傳入-->
+    <select id="getProducts" parameterType="tw.com.mall.dto.ProductsQueryParms" resultMap="BaseResultMap">
+        SELECT *
+        FROM Product
+        WHERE 1=1
+        <!-- 根据分类查询 -->
+        <if test="QueryParms.category != null">
+            AND category = #{QueryParms.category}
+        </if>
+        <!-- 根据关键字查询 -->
+        <if test="QueryParms.keyword != null and QueryParms.keyword != '' ">
+            AND (product_name LIKE CONCAT('%', #{QueryParms.keyword}, '%') OR description LIKE CONCAT('%', #{QueryParms.keyword}, '%'))
+        </if>
+    </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -28,6 +43,7 @@
         from product
         where product_id = #{productId,jdbcType=VARCHAR}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete from product
         where product_id = #{productId,jdbcType=VARCHAR}
