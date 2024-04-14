@@ -9,8 +9,8 @@ public class ProductsQueryParms {
     private String keyword;
     private String OrderBy;
     private String Sort;
-    private Integer page;
-    private Integer pageSize;
+    private Integer limit;
+    private Integer offset;
 
     public ProductCategory getCategory() {
         return category;
@@ -44,19 +44,19 @@ public class ProductsQueryParms {
         Sort = sort;
     }
 
-    public Integer getPage() {
-        return page;
+    public Integer getLimit() {
+        return limit;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 
-    public Integer getPageSize() {
-        return pageSize;
+    public Integer getOffset() {
+        return offset;
     }
 
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 }

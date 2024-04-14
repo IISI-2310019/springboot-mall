@@ -1,9 +1,12 @@
 package tw.com.mall.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tw.com.mall.constant.ProductCategory;
 import tw.com.mall.dto.ProductsQueryParms;
@@ -13,6 +16,8 @@ import tw.com.mall.service.ProductService;
 import java.util.Date;
 import java.util.List;
 
+//要加上這個註解 @Validated，才能使用下面的 @Min @Max的功能
+@Validated
 @RestController
 public class ProductController {
 
@@ -27,10 +32,11 @@ public class ProductController {
                         //排序
                         @RequestParam(required = false,defaultValue = "create_date") String OrderBy,
                         @RequestParam(required = false,defaultValue = "desc") String Sort,
-                        //單頁筆數
-                        @RequestParam(required = false,defaultValue = "10") Integer pageSize,
-                        //分頁
-                        @RequestParam(required = false) Integer page
+
+                        //分頁 Pagination
+                        @RequestParam(required = false,defaultValue = "5") @Max(1000) @Min(0) Integer limit,
+                        //0表示不跳任何一筆數據，從第一筆開始
+                        @RequestParam(required = false,defaultValue = "0") @Min(0) Integer offset
             ) {
 
         ProductsQueryParms productsQueryParms = new ProductsQueryParms();
@@ -39,8 +45,8 @@ public class ProductController {
         productsQueryParms.setKeyword(keyword);
         productsQueryParms.setOrderBy(OrderBy);
         productsQueryParms.setSort(Sort);
-        productsQueryParms.setPage(page);
-        productsQueryParms.setPageSize(pageSize);
+        productsQueryParms.setLimit(limit);
+        productsQueryParms.setOffset(offset);
 
         //List<Product> Products =  productService.getProducts(category,keyword,page);
         List<Product> Products =  productService.getProducts(productsQueryParms);

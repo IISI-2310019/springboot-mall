@@ -43,7 +43,13 @@
         <if test="QueryParms.sort != null and QueryParms.sort != '' ">
             ${QueryParms.sort}
         </if>
-
+        <!-- 分頁 -->
+        <if test="QueryParms.limit != null and QueryParms.limit != ''  ">
+            LIMIT #{QueryParms.limit}
+        </if>
+        <if test=" QueryParms.offset != null and QueryParms.offset != '' ">
+            OFFSET #{QueryParms.offset}
+        </if>
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
