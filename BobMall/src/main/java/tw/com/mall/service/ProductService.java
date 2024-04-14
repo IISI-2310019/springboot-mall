@@ -15,12 +15,12 @@ public class ProductService implements ProductMapper {
     private ProductMapper productMapper;
 
     @Override
-    public List<Product> getProducts(ProductsQueryParms productsQueryParms, Integer page)
+    public List<Product> getProducts(ProductsQueryParms productsQueryParms)
     //public List<Product> getProducts(ProductCategory category,String keyword,Integer page)
     {
         //將模糊關鍵字 keyword 前後加上 % 符號
         //return productMapper.getProducts(category,"%"+keyword+"%",page);
-        return productMapper.getProducts(productsQueryParms,page);
+        return productMapper.getProducts(productsQueryParms);
     }
 
     @Override

@@ -7,6 +7,10 @@ import tw.com.mall.constant.ProductCategory;
 public class ProductsQueryParms {
     private ProductCategory category;
     private String keyword;
+    private String OrderBy;
+    private String Sort;
+    private Integer page;
+    private Integer pageSize;
 
     public ProductCategory getCategory() {
         return category;
@@ -22,5 +26,37 @@ public class ProductsQueryParms {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public String getOrderBy() {
+        return OrderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        OrderBy = orderBy;
+    }
+
+    public String getSort() {
+        return Sort;
+    }
+
+    public void setSort(String sort) {
+        Sort = sort;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }

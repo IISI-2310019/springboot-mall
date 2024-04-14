@@ -27,14 +27,23 @@
         SELECT *
         FROM Product
         WHERE 1=1
-        <!-- 根据分类查询 -->
+        <!-- 根據分類來查詢 -->
         <if test="QueryParms.category != null">
             AND category = #{QueryParms.category}
         </if>
-        <!-- 根据关键字查询 -->
+        <!-- 根據關鍵字查詢 -->
         <if test="QueryParms.keyword != null and QueryParms.keyword != '' ">
             AND (product_name LIKE CONCAT('%', #{QueryParms.keyword}, '%') OR description LIKE CONCAT('%', #{QueryParms.keyword}, '%'))
         </if>
+        <!-- 指定排序的欄位 -->
+        <if test="QueryParms.orderBy != null and QueryParms.orderBy != '' ">
+            ORDER BY ${QueryParms.orderBy}
+        </if>
+        <!-- 指定排序的方式 -->
+        <if test="QueryParms.sort != null and QueryParms.sort != '' ">
+            ${QueryParms.sort}
+        </if>
+
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

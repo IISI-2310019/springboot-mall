@@ -17,7 +17,7 @@ public interface ProductMapper {
 
     //指定參數 @Param("QueryParms") 用來將 ProductsQueryParms 物件傳入
     //指定參數 @Param("Page") 用來將 page 傳入
-    List<Product> getProducts(@Param("QueryParms") ProductsQueryParms productsQueryParms,@Param("Page") Integer page);
+    List<Product> getProducts(@Param("QueryParms") ProductsQueryParms productsQueryParms);
     //List<Product> getProducts(ProductCategory category, String keyword, Integer page);
 
     Product selectByPrimaryKey(String productId);

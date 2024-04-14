@@ -21,8 +21,15 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProduct(
+                        //查詢條件Filter
                         @RequestParam(required = false) ProductCategory category,
                         @RequestParam(required = false) String keyword,
+                        //排序
+                        @RequestParam(required = false,defaultValue = "create_date") String OrderBy,
+                        @RequestParam(required = false,defaultValue = "desc") String Sort,
+                        //單頁筆數
+                        @RequestParam(required = false,defaultValue = "10") Integer pageSize,
+                        //分頁
                         @RequestParam(required = false) Integer page
             ) {
 
@@ -30,9 +37,13 @@ public class ProductController {
 
         productsQueryParms.setCategory(category);
         productsQueryParms.setKeyword(keyword);
+        productsQueryParms.setOrderBy(OrderBy);
+        productsQueryParms.setSort(Sort);
+        productsQueryParms.setPage(page);
+        productsQueryParms.setPageSize(pageSize);
 
         //List<Product> Products =  productService.getProducts(category,keyword,page);
-        List<Product> Products =  productService.getProducts(productsQueryParms,page);
+        List<Product> Products =  productService.getProducts(productsQueryParms);
 
         //回傳HttpStatusCode 200
         return ResponseEntity.status(HttpStatus.OK).body(Products);
