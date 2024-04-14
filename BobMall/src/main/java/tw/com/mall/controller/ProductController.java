@@ -12,6 +12,7 @@ import tw.com.mall.constant.ProductCategory;
 import tw.com.mall.dto.ProductsQueryParms;
 import tw.com.mall.model.Product;
 import tw.com.mall.service.ProductService;
+import tw.com.mall.util.Page;
 
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,42 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProduct(
+    //使用格式化的返回格式
+    public ResponseEntity<Page<Product>> getProducts(
+            //查詢條件Filter
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String keyword,
+            //排序
+            @RequestParam(required = false,defaultValue = "create_date") String OrderBy,
+            @RequestParam(required = false,defaultValue = "desc") String Sort,
+
+            //分頁 Pagination
+            @RequestParam(required = false,defaultValue = "5") @Max(1000) @Min(0) Integer limit,
+            //0表示不跳任何一筆數據，從第一筆開始
+            @RequestParam(required = false,defaultValue = "0") @Min(0) Integer offset
+    ){
+        ProductsQueryParms productsQueryParms = new ProductsQueryParms();
+
+        productsQueryParms.setCategory(category);
+        productsQueryParms.setKeyword(keyword);
+        productsQueryParms.setOrderBy(OrderBy);
+        productsQueryParms.setSort(Sort);
+        productsQueryParms.setLimit(limit);
+        productsQueryParms.setOffset(offset);
+
+        List<Product> ProductsList =  productService.getProducts(productsQueryParms);
+
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(ProductsList.size());
+        page.setRecords(ProductsList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
+    }
+
+    /*
+    public ResponseEntity<List<Product>> getAllProducts(
                         //查詢條件Filter
                         @RequestParam(required = false) ProductCategory category,
                         @RequestParam(required = false) String keyword,
@@ -54,7 +90,7 @@ public class ProductController {
         //回傳HttpStatusCode 200
         return ResponseEntity.status(HttpStatus.OK).body(Products);
     }
-
+    */
 
     //@GetMapping("/products")
     //public List<Product> selectAll(){
