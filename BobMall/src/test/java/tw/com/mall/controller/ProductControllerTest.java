@@ -47,5 +47,14 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.lastModifyDate", notNullValue()));
     }
 
+    @Test
+    public void getProduct_notFound() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/products/{productId}", "fe371b29-211e-4a68-a66b-b");
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().is(404));
+    }
+
 
 }
