@@ -58,10 +58,23 @@ public class UserService implements UserMapper {
 
         if(queryUser != null) {
             logger.warn("Email:{} is already exist", email);
-            return null;
+            return queryUser;
         }else{
             logger.info("Email:{} is available", email);
-            return queryUser;
+            return null;
+        }
+    }
+
+    @Override
+    public User getLogin(String email,String password)
+    {
+        User LoginUser = userMapper.getLogin(email,password);
+        if(LoginUser == null) {
+            logger.warn("Login Data is Error");
+            return null;
+        }else{
+            logger.info("Login Success");
+            return LoginUser;
         }
     }
 }

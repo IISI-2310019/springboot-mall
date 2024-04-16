@@ -22,4 +22,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User selectByEmail(String email);
+
+    User getLogin(String email,String password);
 }

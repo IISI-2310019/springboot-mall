@@ -1,34 +1,20 @@
 package tw.com.mall.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class UserRegisterRequest {
-
-    String userId;
+/*
+    * 這個類別是用來接收使用者登入的請求
+    * 這個類別的屬性是使用者的email和密碼
+ */
+public class UserLoginRequest {
 
     @NotBlank
-    String userName;
-
-    @NotBlank
+    @Email
     String email;
 
+    @NotBlank
     String password;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     public String getEmail() {
         return email;
