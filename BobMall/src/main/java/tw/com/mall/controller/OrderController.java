@@ -1,17 +1,26 @@
 package tw.com.mall.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tw.com.mall.dto.CreateOrderRequest;
+import tw.com.mall.dto.OrderQueryParms;
+import tw.com.mall.model.Product;
 import tw.com.mall.model.ProductOrder;
 import tw.com.mall.service.OrderItemService;
 import tw.com.mall.service.ProductOrderService;
+import tw.com.mall.util.Page;
 
+import java.util.List;
+
+@Validated
 @RestController
 public class OrderController {
 
@@ -24,12 +33,45 @@ public class OrderController {
     @Autowired
     private OrderItemService orderItemService;
 
+    @GetMapping("/orders")
+    public ResponseEntity<?> getOrders(
+                                       @RequestParam(required = false) String keyword,
+                                       //排序
+                                       @RequestParam(required = false,defaultValue = "created_date") String OrderBy,
+                                       @RequestParam(required = false,defaultValue = "desc") String Sort,
+
+                                       //分頁 Pagination
+                                       @RequestParam(required = false,defaultValue = "5") @Max(1000) @Min(0) Integer limit,
+                                       //0表示不跳任何一筆數據，從第一筆開始
+                                       @RequestParam(required = false,defaultValue = "0") @Min(0) Integer offset)
+
+    {
+        OrderQueryParms orderQueryParms = new OrderQueryParms();
+
+        orderQueryParms.setKeyword(keyword);
+        orderQueryParms.setOrderBy(OrderBy);
+        orderQueryParms.setSort(Sort);
+        orderQueryParms.setLimit(limit);
+        orderQueryParms.setOffset(offset);
+
+        List<ProductOrder> ProductOrderList = productOrderService.getOrders(orderQueryParms);
+
+        Page<ProductOrder> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(ProductOrderList.size());
+        page.setRecords(ProductOrderList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
+    }
+
     /*
-    * 取得所有訂單
+    * 取得User所有訂單
     * @param userId
     */
     @GetMapping("/users/{userId}/orders")
-    public ResponseEntity<?> getOrders(@PathVariable @NotNull String userId){
+    public ResponseEntity<?> getOrdersByUserId(@PathVariable @NotNull String userId)
+    {
         try{
             return ResponseEntity.ok(productOrderService.getOrderByUserId(userId));
         }catch (Exception e){

@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import tw.com.mall.dto.BuyItem;
 import tw.com.mall.dto.CreateOrderRequest;
+import tw.com.mall.dto.OrderQueryParms;
+import tw.com.mall.dto.ProductsQueryParms;
 import tw.com.mall.mapper.ProductMapper;
 import tw.com.mall.mapper.ProductOrderMapper;
 import tw.com.mall.model.OrderItem;
@@ -36,6 +38,17 @@ public class ProductOrderService implements ProductOrderMapper {
 
     @Autowired
     private UserService userService;
+
+    @Override
+    public List<ProductOrder> selectAll() {
+        return List.of();
+    }
+
+    @Override
+    public List<ProductOrder> getOrders(OrderQueryParms orderQueryParms)
+    {
+        return productOrderMapper.getOrders(orderQueryParms);
+    }
 
     @Override
     public int deleteByPrimaryKey(String orderId) {

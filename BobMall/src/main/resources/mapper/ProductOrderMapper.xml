@@ -11,6 +11,45 @@
   <sql id="Base_Column_List">
     order_id, user_id, total_amount, created_date, last_modified_date
   </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from product_order
+  </select>
+  <!--關鍵字查詢-->
+  <!--使用tw.com.mall.dto.OrderQueryParms Bean方式傳入-->
+  <select id="getOrders" parameterType="tw.com.mall.dto.OrderQueryParms" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product_order
+    where 1=1
+    <!-- 根據使用者ID來查詢 -->
+    <if test="QueryParms.userId != null">
+      and user_id = #{userId}
+    </if>
+    <!-- 根據關鍵字查詢 -->
+    <if test="QueryParms.keyword != null and QueryParms.keyword != '' ">
+      <!--AND (product_name LIKE CONCAT('%', #{QueryParms.keyword}, '%') OR description LIKE CONCAT('%', #{QueryParms.keyword}, '%'))-->
+    </if>
+    <!-- 指定排序的欄位 -->
+    <if test="QueryParms.orderBy != null and QueryParms.orderBy != '' ">
+      ORDER BY ${QueryParms.orderBy}
+    </if>
+    <!-- 指定排序的方式 -->
+    <if test="QueryParms.sort != null and QueryParms.sort != '' ">
+      ${QueryParms.sort}
+    </if>
+    <!-- 分頁 -->
+    <if test="QueryParms.limit != null and QueryParms.limit != ''  ">
+      LIMIT #{QueryParms.limit}
+    </if>
+    <if test=" QueryParms.offset != null and QueryParms.offset != '' ">
+      OFFSET #{QueryParms.offset}
+    </if>
+
+
+  </select>
+
   <select id="getOrderById" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
