@@ -69,6 +69,10 @@ public class ProductService implements ProductMapper {
 
     }
 
+    @Override
+    public void updateProductStock(String productId, Integer stock){
+        //return productMapper.updateProductStock(productId, stock);
+    }
 
 
 }

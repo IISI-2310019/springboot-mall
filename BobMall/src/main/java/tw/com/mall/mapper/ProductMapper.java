@@ -27,4 +27,6 @@ public interface ProductMapper {
     int updateByPrimaryKey(String productId,Product row);
 
     void updateProduct(String productId,Product row);
+
+    void updateProductStock(String productId,Integer stock);
 }

@@ -11,6 +11,8 @@ import tw.com.mall.mapper.ProductMapper;
 import tw.com.mall.model.OrderItem;
 import tw.com.mall.model.Product;
 
+import java.util.List;
+
 @Transactional
 @Component
 public class OrderItemService implements OrderItemMapper{
@@ -28,6 +30,27 @@ public class OrderItemService implements OrderItemMapper{
         return 0;
     }
 
+    //處理新增訂單明細(考慮庫存之後可購買的)
+    public int CreateOrderItems(String userId,String OrderId, List<OrderItem> orderItems)
+    {
+        int ItemCount = 0;
+        for(OrderItem orderItem : orderItems)
+        {
+            Product product = productMapper.selectByPrimaryKey(orderItem.getProductId());
+
+            int amt = product.getPrice() * orderItem.getQuantity();
+            orderItem.setAmount(amt);
+            orderItem.setOrderId(OrderId);
+            orderItem.setOrderItemId(java.util.UUID.randomUUID().toString());
+            if(orderItemMapper.insert(orderItem)>0)
+            {
+                ItemCount++;
+            }
+        }
+        return ItemCount;
+    }
+
+    /*
     //處理新增訂單明細
     public int CreateOrderItem(String userId,String OrderId, CreateOrderRequest createOrderRequest)
     {
@@ -58,7 +81,7 @@ public class OrderItemService implements OrderItemMapper{
         }
         logger.info("ItemCount:{}",ItemCount);
         return ItemCount;
-    }
+    }*/
 
     @Override
     public int insert(OrderItem record) {
