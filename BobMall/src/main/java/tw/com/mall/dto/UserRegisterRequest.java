@@ -12,14 +12,14 @@ public class UserRegisterRequest {
 
     @NotBlank
     @Email
-    String email;
+    private String email;
 
     @NotBlank
     //@JsonIgnore
-    String password;
+    private String password;
 
     @NotBlank
-    String userName;
+    private String userName;
 
     public String getEmail() {
         return email;
