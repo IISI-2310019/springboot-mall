@@ -11,6 +11,19 @@
   <sql id="Base_Column_List">
     order_id, user_id, total_amount, created_date, last_modified_date
   </sql>
+  <select id="getOrderById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product_order
+    where order_id = #{orderId,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <select id="getOrderByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product_order
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

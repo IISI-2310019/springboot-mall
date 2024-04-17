@@ -13,6 +13,7 @@ import tw.com.mall.model.Product;
 import tw.com.mall.model.ProductOrder;
 
 import java.util.Date;
+import java.util.List;
 
 @Transactional
 @Component
@@ -89,6 +90,16 @@ public class ProductOrderService implements ProductOrderMapper {
     @Override
     public ProductOrder selectByPrimaryKey(String orderId) {
         return null;
+    }
+
+    @Override
+    public ProductOrder getOrderById(String userId,String orderId) {
+        return productOrderMapper.getOrderById(userId,orderId);
+    }
+
+    @Override
+    public List<ProductOrder> getOrderByUserId(String userId) {
+        return productOrderMapper.getOrderByUserId(userId);
     }
 
     @Override
